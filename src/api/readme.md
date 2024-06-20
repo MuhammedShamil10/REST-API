@@ -1,0 +1,1 @@
+This folder used to create api integration for fetching data from server
