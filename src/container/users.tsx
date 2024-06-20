@@ -12,7 +12,6 @@ export const Users = () => {
   });
   const { data: userListResponce } = useGetUserDetails();
   const { mutateAsync: editUser } = useEditUser();
-  console.log(editUserList, "editUserList");
 
   const handleEditUser = (id: number) => {
     editUser({
@@ -23,8 +22,6 @@ export const Users = () => {
       id,
     });
   };
-
-  console.log(userListResponce?.map((item) => item.name));
 
   return (
     <div className="flex p-10 flex-wrap gap-10">
