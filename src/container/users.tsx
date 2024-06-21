@@ -61,8 +61,8 @@ export const Users = () => {
         </div>
       ))}
       <UserInput
-        label="Crete User"
-        buttonLabel="Create User"
+        label="Create User"
+        buttonLabel="Create"
         editUserList={editUserList}
         setEditUserList={setEditUserList}
         onSubmit={handleCreateUser}

@@ -27,8 +27,8 @@ export const UserInput = ({
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handleSubmit = (event: { preventDefault: () => void }) => {
-    event.preventDefault();
+  const handleSubmit = (event?: { preventDefault: () => void }) => {
+    event?.preventDefault();
     onSubmit(
       editUserList.email,
       editUserList.gender,
@@ -59,7 +59,7 @@ export const UserInput = ({
       </button>
       <Modal open={open} onClose={handleClose}>
         <Box sx={style}>
-          <Typography variant="h6" component="h2">
+          <Typography className="w-full font-bold flex justify-center" variant="h6" component="h2">
             {label}
           </Typography>
           <Typography sx={{ mt: 2 }} className="flex flex-col justify-center">
@@ -117,7 +117,10 @@ export const UserInput = ({
                 />
               </div>
               <button
-                onClick={handleSubmit}
+                onClick={() => {
+                  handleSubmit();
+                  handleClose();
+                }}
                 type="submit"
                 className="bg-green-600 mt-2 p-2 rounded-lg text-white font-bold "
               >
