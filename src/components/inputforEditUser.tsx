@@ -16,7 +16,7 @@ type InputProp = {
   editUserList: EditUserList;
 };
 
-export const EditUser = ({
+export const UserInput = ({
   label,
   onSubmit,
   buttonLabel,
@@ -53,7 +53,7 @@ export const EditUser = ({
     <div>
       <button
         onClick={handleOpen}
-        className="border h-14 w-56 text-white rounded-md bg-green-600"
+        className="border h-14 w-56 text-white rounded-md bg-blue-600"
       >
         {buttonLabel}
       </button>
