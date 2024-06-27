@@ -53,7 +53,7 @@ export const UserInput = ({
     <div>
       <button
         onClick={handleOpen}
-        className="border h-14 w-56 text-white rounded-md bg-blue-600"
+        className="border text-white rounded-md bg-blue-600"
       >
         {buttonLabel}
       </button>
@@ -63,12 +63,13 @@ export const UserInput = ({
             {label}
           </Typography>
           <Typography sx={{ mt: 2 }} className="flex flex-col justify-center">
-            <form className="flex flex-col" action="">
+            <form className="flex flex-col items-center gap-2" action="">
               <div className="flex flex-col items-center">
                 <label htmlFor="">Name: </label>
                 <input
                   className="border bg-slate-100 p-2 rounded-md"
                   placeholder="Enter Name"
+                  required
                   type="text"
                   id={editUserList.name}
                   value={editUserList.name}
@@ -82,7 +83,7 @@ export const UserInput = ({
                 <input
                   className="border bg-slate-100 p-2 rounded-md"
                   placeholder="Enter Email"
-                  type="text"
+                  type="email"
                   id={editUserList.email}
                   value={editUserList.email}
                   onChange={(e) =>
@@ -90,31 +91,51 @@ export const UserInput = ({
                   }
                 />
               </div>
-              <div className="flex flex-col items-center">
-                <label htmlFor="">gender: </label>
+              <div className="flex flex-row items-center gap-2">
+                <label htmlFor="">Gender: </label>
                 <input
-                  className="border bg-slate-100 p-2 rounded-md"
-                  placeholder="Enter gender"
-                  type="text"
-                  id={editUserList.gender}
-                  value={editUserList.gender}
                   onChange={(e) =>
                     setEditUserList({ ...editUserList, gender: e.target.value })
                   }
+                  id="Male"
+                  name="age"
+                  value="Male"
+                  type="radio"
                 />
-              </div>
-              <div className="flex flex-col items-center">
-                <label htmlFor="">status: </label>
+                <label htmlFor="Male">Male</label>
                 <input
-                  className="border bg-slate-100 p-2 rounded-md"
-                  placeholder="Enter status"
-                  type="text"
-                  id={editUserList.status}
-                  value={editUserList.status}
                   onChange={(e) =>
-                    setEditUserList({ ...editUserList, status: e.target.value })
+                    setEditUserList({ ...editUserList, gender: e.target.value })
                   }
+                  id="Female"
+                  name="age"
+                  value="Female"
+                  type="radio"
                 />
+                <label htmlFor="Female">Female</label>
+              </div>
+              <div className="flex flex-row items-center gap-2">
+                <label htmlFor="">Status: </label>
+                <input
+                  onChange={(e) =>
+                    setEditUserList({ ...editUserList, gender: e.target.value })
+                  }
+                  id="Active"
+                  name="Active"
+                  value="Active"
+                  type="radio"
+                />
+                <label htmlFor="Active">Active</label>
+                <input
+                  onChange={(e) =>
+                    setEditUserList({ ...editUserList, gender: e.target.value })
+                  }
+                  id="Inactive"
+                  name="Inactive"
+                  value="Inactive"
+                  type="radio"
+                />
+                <label htmlFor="Inactive">Inactive</label>
               </div>
               <button
                 onClick={handleSubmit}
