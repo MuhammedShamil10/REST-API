@@ -6,12 +6,10 @@ import { UserGetPostComments } from "../type";
 
 export const useGetUserComments = (id: number) => {
   return useQuery<UserGetPostComments>({
-    queryKey: [DataQueryKey.USER_COMMENT],
+    queryKey: [DataQueryKey.USER_COMMENT, id],
     queryFn: async () => {
       const { data } = await httpClient.get(API_URLS.getPostComment(id));
-      console.log(data, "api");
       return data;
     },
-    enabled: !!id,
   });
 };

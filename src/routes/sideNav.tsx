@@ -68,7 +68,7 @@ export const SideNav = () => {
               </li>
             ))}
             <li>
-              <Link to={`users/all`}>All</Link>
+              <Link to={`/admin/1/users/all`}>All</Link>
             </li>
           </ul>
         </nav>

@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import { useEffect, useState } from "react";
 import { useEditUser } from "../api/users/useUserEditUser";
 import { UserInput } from "../components/inputforEditUser";
@@ -13,6 +14,7 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
+import { infiniteQueryOptions } from "@tanstack/react-query";
 
 export const SingleUser = () => {
   const { userId } = useParams();
@@ -34,6 +36,10 @@ export const SingleUser = () => {
       refetch();
     }
   }, [refetch, userId]);
+
+  useEffect(() => {
+    refetch()
+  })
 
   const { mutateAsync: editUser } = useEditUser();
   const { mutateAsync: deleteUser } = useDeleteUser();
@@ -73,10 +79,18 @@ export const SingleUser = () => {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => {
-                    deleteUser(userResponse.id);
-                    navigate("/admin/1/contacts/all");
+                    navigate("/admin/1/users/all");
+                    if (
+                      confirm(
+                        `Are you sure want to delete user ${userResponse.name}`
+                      )
+                    ) {
+                      deleteUser(userResponse.id);
+                    } else {
+                      console.log("Canceled");
+                    }
                   }}
-                  className="font-medium text-white bg-red-600 p-2  border "
+                  className="font-medium text-white bg-red-600 p-2 border"
                 >
                   Delete
                 </button>
@@ -85,7 +99,10 @@ export const SingleUser = () => {
                   buttonLabel="Edit"
                   editUserList={editUserList}
                   setEditUserList={setEditUserList}
-                  onSubmit={() => handleEditUser(userResponse.id)}
+                  onSubmit={() => {
+                    handleEditUser(userResponse.id);
+                    refetch();
+                  }}
                 />
               </div>
             </CardActions>
