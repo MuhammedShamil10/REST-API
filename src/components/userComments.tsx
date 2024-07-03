@@ -61,7 +61,7 @@ export const UserCommentBox = ({
       <Modal
         open={open}
         onClose={() => setOpen(false)}
-        className="flex justify-center h-auto w-full p-2"
+        className="flex justify-center h-auto w-full p-2 rounded-lg"
       >
         <Sheet
           variant="outlined"

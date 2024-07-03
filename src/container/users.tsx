@@ -51,7 +51,7 @@ export const Users = () => {
     <div className="flex p-10 flex-wrap gap-10 relative">
       {userListResponse ? (
         userListResponse?.map((option) => (
-          <Card style={{ background: "#AFC9E4" }} className="w-[30%] px-2 py-5">
+          <Card style={{ background: "#AFC9E4" }} className="w-[30%] px-2 py-5  rounded-lg">
             {option.gender === "male" ? (
               <CardMedia sx={{ width: 100, height: 100 }} image={a} />
             ) : (

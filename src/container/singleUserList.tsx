@@ -40,7 +40,7 @@ export const SingleUser = () => {
   useEffect(() => {
     refetch()
   })
-
+  
   const { mutateAsync: editUser } = useEditUser();
   const { mutateAsync: deleteUser } = useDeleteUser();
 
