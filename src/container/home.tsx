@@ -1,4 +1,3 @@
-import { useGetUserDetails } from "../api/users/useGetUserList";
 import { useGetUserPost } from "../api/users/useGetUsersPost";
 import Social from "../assets/social.jpg";
 import {
@@ -6,20 +5,21 @@ import {
   CardActions,
   CardContent,
   CardMedia,
+  Rating,
   Typography,
 } from "@mui/material";
-import a from "../assets/profile-user.png";
+import userProfile from "../assets/profile-user.png";
 import comment from "../assets/comments.png";
 import { UserCommentBox } from "../components/userComments";
 import { useState } from "react";
 import { usePostUserComments } from "../api/users/usePostUserComment";
-import { useGetUserComments } from "../api/users/useGetUserComment";
+import { useDeleteUserComment } from "../api/users/useDeleteUserComment";
 
 export const Home = () => {
+  const [value, setValue] = useState<number | null>(2);
   const { data: userPostResponse } = useGetUserPost();
   const { mutateAsync: createComment } = usePostUserComments();
-  const { data: userCommentResponse } = useGetUserComments(1);
-
+  const { mutateAsync: deleteUserComment } = useDeleteUserComment();
   const [inputComments, setInputComments] = useState({
     body: "",
   });
@@ -31,6 +31,10 @@ export const Home = () => {
       name: "sample",
       id: id,
     });
+  };
+
+  const handleDeleteComment = (id: number) => {
+    deleteUserComment(id);
   };
 
   return (
@@ -61,6 +65,13 @@ export const Home = () => {
                 className="flex flex-col justify-between w-[30%] px-2 py-5"
               >
                 <CardContent>
+                  <Rating
+                    name="simple-controlled"
+                    value={value}
+                    onChange={(event, newValue) => {
+                      setValue(newValue);
+                    }}
+                  />
                   <Typography
                     className="font-semibold pb-2 underline"
                     variant="body2"
@@ -74,7 +85,10 @@ export const Home = () => {
                 </CardContent>
                 <CardActions className="flex justify-between">
                   <div className="flex flex-row items-center gap-2">
-                    <CardMedia sx={{ width: 40, height: 40 }} image={a} />
+                    <CardMedia
+                      sx={{ width: 40, height: 40 }}
+                      image={userProfile}
+                    />
                     <span className="text-sm">
                       Posted by:
                       <Typography
@@ -88,12 +102,13 @@ export const Home = () => {
                   </div>
                   <div className="cursor-pointer">
                     <UserCommentBox
-                      onSubmit={() => handleNewComment(option.id)}
+                      label="Comments"
+                      postId={option.id}
+                      picture={comment}
                       inputComments={inputComments}
                       setInputComments={setInputComments}
-                      label="Comments"
-                      picture={comment}
-                      userCommentResponse={userCommentResponse}
+                      handleDeleteComment={handleDeleteComment}
+                      onSubmit={() => handleNewComment(option.id)}
                     />
                   </div>
                 </CardActions>

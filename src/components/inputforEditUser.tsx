@@ -26,6 +26,7 @@ export const UserInput = ({
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -35,6 +36,8 @@ export const UserInput = ({
       editUserList.name,
       editUserList.status
     );
+    alert("Successfully");
+    handleClose();
   };
 
   const style = {
@@ -46,6 +49,7 @@ export const UserInput = ({
     bgcolor: "background.paper",
     border: "2px solid #000",
     boxShadow: 24,
+    borderRadius: 2,
     p: 4,
   };
 
@@ -63,7 +67,11 @@ export const UserInput = ({
             {label}
           </Typography>
           <Typography sx={{ mt: 2 }} className="flex flex-col justify-center">
-            <form className="flex flex-col items-center gap-2" action="">
+            <form
+              id="myForm"
+              className="flex flex-col items-center gap-2"
+              action=""
+            >
               <div className="flex flex-col items-center">
                 <label htmlFor="">Name: </label>
                 <input
@@ -73,9 +81,9 @@ export const UserInput = ({
                   type="text"
                   id={editUserList.name}
                   value={editUserList.name}
-                  onChange={(e) =>
-                    setEditUserList({ ...editUserList, name: e.target.value })
-                  }
+                  onChange={(e) => {
+                    setEditUserList({ ...editUserList, name: e.target.value });
+                  }}
                 />
               </div>
               <div className="flex flex-col items-center">
@@ -86,61 +94,79 @@ export const UserInput = ({
                   type="email"
                   id={editUserList.email}
                   value={editUserList.email}
-                  onChange={(e) =>
-                    setEditUserList({ ...editUserList, email: e.target.value })
-                  }
+                  onChange={(e) => {
+                    setEditUserList({ ...editUserList, email: e.target.value });
+                  }}
                 />
               </div>
               <div className="flex flex-row items-center gap-2">
                 <label htmlFor="">Gender: </label>
                 <input
-                  onChange={(e) =>
-                    setEditUserList({ ...editUserList, gender: e.target.value })
-                  }
-                  id="Male"
+                  onChange={(e) => {
+                    setEditUserList({
+                      ...editUserList,
+                      gender: e.target.value,
+                    });
+                  }}
+                  id="male"
                   name="age"
-                  value="Male"
+                  value="male"
                   type="radio"
                 />
-                <label htmlFor="Male">Male</label>
+                <label htmlFor="male">Male</label>
                 <input
-                  onChange={(e) =>
-                    setEditUserList({ ...editUserList, gender: e.target.value })
-                  }
-                  id="Female"
+                  onChange={(e) => {
+                    setEditUserList({
+                      ...editUserList,
+                      gender: e.target.value,
+                    });
+                  }}
+                  id="female"
                   name="age"
-                  value="Female"
+                  value="female"
                   type="radio"
                 />
-                <label htmlFor="Female">Female</label>
+                <label htmlFor="female">Female</label>
               </div>
               <div className="flex flex-row items-center gap-2">
                 <label htmlFor="">Status: </label>
                 <input
-                  onChange={(e) =>
-                    setEditUserList({ ...editUserList, gender: e.target.value })
-                  }
-                  id="Active"
-                  name="Active"
-                  value="Active"
+                  onChange={(e) => {
+                    setEditUserList({
+                      ...editUserList,
+                      status: e.target.value,
+                    });
+                  }}
+                  id="active"
+                  name="status"
+                  value="active"
                   type="radio"
                 />
-                <label htmlFor="Active">Active</label>
+                <label htmlFor="active">Active</label>
                 <input
-                  onChange={(e) =>
-                    setEditUserList({ ...editUserList, gender: e.target.value })
-                  }
-                  id="Inactive"
-                  name="Inactive"
-                  value="Inactive"
+                  onChange={(e) => {
+                    setEditUserList({
+                      ...editUserList,
+                      status: e.target.value,
+                    });
+                  }}
+                  id="inactive"
+                  name="status"
+                  value="inactive"
                   type="radio"
                 />
-                <label htmlFor="Inactive">Inactive</label>
+                <label htmlFor="inactive">Inactive</label>
               </div>
               <button
+                disabled={
+                  editUserList.name.length === 0 ||
+                  editUserList.email.length === 0 ||
+                  editUserList.gender.length === 0 ||
+                  editUserList.status.length === 0
+                }
                 onClick={handleSubmit}
                 type="submit"
-                className="bg-green-600 mt-2 p-2 rounded-lg text-white font-bold "
+                className="bg-green-600 mt-2 p-2 rounded-lg text-white font-bold"
               >
                 Submit
               </button>

@@ -7,4 +7,5 @@ export const API_URLS = {
   getUserPost: () => `/posts`,
   createPostComment: (id: number) => `/posts/${id}/comments`,
   getPostComment: (id: number) => `/posts/${id}/comments`,
+  deleteUserComment: (id: number) => `/comments/${id}`,
 };

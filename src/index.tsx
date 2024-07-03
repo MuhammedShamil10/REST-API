@@ -3,63 +3,35 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-// import Root from "./routes/root";
-import ErrorPage from "./routes/errorPage";
-import { Users } from "./container/users";
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { SingleUser } from "./container/singleUserList";
-import { SideNav } from "./routes/sideNav";
-import { SideNavBar } from "./container/sideNavBar";
-import { Home } from "./container/home";
+
 import { PaginationUserList } from "./components/paginationUserList";
+import { Auth0Provider } from "@auth0/auth0-react";
+import { BrowserRouter } from "react-router-dom";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <SideNavBar />,
-    errorElement: <ErrorPage />,
-    children: [
-      {
-        path: "admin/:page",
-        element: <SideNav />,
-        children: [
-          {
-            index: true,
-            element: <Users />,
-          },
-          {
-            path: "user/:userId",
-            element: <SingleUser />,
-          },
-          {
-            path: "users/:contactId",
-            element: <Users />,
-          },
-        ],
-      },
-      {
-        index: true,
-        element: <Home />,
-      },
-      {
-        path: "home/:all",
-        element: <Home />,
-      },
-    ],
-  },
-]);
 const queryClient = new QueryClient();
-
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <PaginationUserList>
-        <RouterProvider router={router} />
-      </PaginationUserList>
+      <Auth0Provider
+        domain="dev-xwomj844del2gkwu.us.auth0.com"
+        clientId="6y8tBoX1Cv1WD0iKFxoVugZSOZWiPFDC"
+        authorizationParams={{
+          redirect_uri: window.location.origin,
+          audience: "https://dev-xwomj844del2gkwu.us.auth0.com/api/v2/",
+          scope: "read:current_user update:current_user_metadata",
+        }}
+      >
+        <PaginationUserList>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </PaginationUserList>
+      </Auth0Provider>
     </QueryClientProvider>
   </React.StrictMode>
 );

@@ -9,8 +9,8 @@ export const PageContext = createContext<PageContextType | undefined>(
   undefined
 );
 interface PaginationUserListProps {
-    children: ReactNode;
-  }
+  children: ReactNode;
+}
 export const PaginationUserList = ({ children }: PaginationUserListProps) => {
   const [page, setPage] = useState(1);
 

@@ -9,23 +9,21 @@ export const SideNavBar = () => {
       <ul className="flex flex-col gap-3 bg-[#AFC9E4] m-0  p-2">
         <li className="block">
           <a href="#news">
-          
-              <NavLink
-                to={`/home/${userPostResponse?.[0].id}`}
-                style={({ isActive }) =>
-                  isActive ? { color: "white" } : { color: "black" }
-                }
-              >
-                Home
-              </NavLink>
-
+            <NavLink
+              to={`/`}
+              style={({ isActive }) =>
+                isActive ? { color: "white" } : { color: "black" }
+              }
+            >
+              Home
+            </NavLink>
           </a>
         </li>
         <hr />
         <li className="block">
           <a href="12">
             <NavLink
-              to="/admin/1"
+              to="/admin/1/users/all"
               style={({ isActive }) =>
                 isActive ? { color: "white" } : { color: "black" }
               }
