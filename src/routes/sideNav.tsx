@@ -1,7 +1,7 @@
-import { Outlet, Link, useParams, useOutletContext } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 import { useGetUserDetails } from "../api/users/useGetUserList";
 import { useCreateUser } from "../api/users/useCreateUser";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { UserInput } from "../components/inputforEditUser";
 import { PageContext, PageContextType } from "../components/paginationUserList";
 
@@ -54,7 +54,6 @@ export const SideNav = () => {
             <UserInput
               label="Create User"
               buttonLabel="New"
-              editUserList={editUserList}
               setEditUserList={setEditUserList}
               onSubmit={handleCreateUser}
             />

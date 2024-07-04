@@ -14,6 +14,7 @@ import { UserCommentBox } from "../components/userComments";
 import { useState } from "react";
 import { usePostUserComments } from "../api/users/usePostUserComment";
 import { useDeleteUserComment } from "../api/users/useDeleteUserComment";
+import UseReducerSample from "../components/reducer";
 
 export const Home = () => {
   const [value, setValue] = useState<number | null>(2);
@@ -119,6 +120,7 @@ export const Home = () => {
           )}
         </div>
       </div>
+      <UseReducerSample />
     </div>
   );
 };
