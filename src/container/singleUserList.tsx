@@ -14,7 +14,6 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
-import { infiniteQueryOptions } from "@tanstack/react-query";
 
 export const SingleUser = () => {
   const { userId } = useParams();
@@ -38,9 +37,9 @@ export const SingleUser = () => {
   }, [refetch, userId]);
 
   useEffect(() => {
-    refetch()
-  })
-  
+    refetch();
+  });
+
   const { mutateAsync: editUser } = useEditUser();
   const { mutateAsync: deleteUser } = useDeleteUser();
 
@@ -97,7 +96,6 @@ export const SingleUser = () => {
                 <UserInput
                   label="Edit User"
                   buttonLabel="Edit"
-                  editUserList={editUserList}
                   setEditUserList={setEditUserList}
                   onSubmit={() => {
                     handleEditUser(userResponse.id);

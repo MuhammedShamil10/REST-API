@@ -13,6 +13,7 @@ import a from "../assets/boy.png";
 import b from "../assets/woman.png";
 import { Outlet } from "react-router-dom";
 import { PageContext, PageContextType } from "../components/paginationUserList";
+import { UserFilter } from "../components/userFilter";
 
 export const Users = () => {
   //@ts-ignore
@@ -25,7 +26,9 @@ export const Users = () => {
     status: "",
     gender: "",
   });
+
   const { data: userListResponse } = useGetUserDetails(page);
+  // const [filteredGender, setFilteredGender] = useState(userListResponse);
   const { mutateAsync: editUser } = useEditUser();
   const { mutateAsync: deleteUser } = useDeleteUser();
 
@@ -38,7 +41,6 @@ export const Users = () => {
       id,
     });
   };
-
   const handleNextPage = () => {
     setPage((prev: number) => Math.max(prev + 1));
   };
@@ -48,74 +50,101 @@ export const Users = () => {
   };
 
   return (
-    <div className="flex p-10 flex-wrap gap-10 relative">
-      {userListResponse ? (
-        userListResponse?.map((option) => (
-          <Card style={{ background: "#AFC9E4" }} className="w-[30%] px-2 py-5  rounded-lg">
-            {option.gender === "male" ? (
-              <CardMedia sx={{ width: 100, height: 100 }} image={a} />
-            ) : (
-              <CardMedia sx={{ width: 100, height: 100 }} image={b} />
-            )}
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {option.name}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {option.email}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {option.status}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => {
-                    if (
-                      confirm(`Are you sure want to delete user ${option.name}`)
-                    ) {
-                      deleteUser(option.id);
-                    } else {
-                      console.log("Canceled");
-                    }
-                  }}
-                  className="font-medium text-white bg-red-600 p-2  border "
-                >
-                  Delete
-                </button>
-                <UserInput
-                  label="Edit User"
-                  buttonLabel="Edit"
-                  editUserList={editUserList}
-                  setEditUserList={setEditUserList}
-                  onSubmit={() => {
-                    handleEditUser(option.id);
-                  }}
-                />
-              </div>
-            </CardActions>
-          </Card>
-        ))
-      ) : (
-        <p>Loading...</p>
-      )}
-      <div className="flex justify-center gap-5 w-full mt-10 fixed bottom-20 left-0">
-        <button
-          onClick={handlePrevPage}
-          className="font-medium text-white w-32 bg-blue-600 p-2 mx-2 border"
-          disabled={page === 1}
-        >
-          Previous
-        </button>
-        <button
-          onClick={handleNextPage}
-          className="font-medium text-white w-32 bg-blue-600 p-2 mx-2 border"
-        >
-          Next
-        </button>
+    <div>
+      <div className="z-10">
+        {/* <UserFilter
+          selectedValue={filteredGender}
+          setFilteredGender={setFilteredGender}
+          userListResponse={userListResponse}
+        /> */}
       </div>
-      <Outlet />
+      <div className="flex p-10 flex-wrap gap-10 relative">
+        {userListResponse ? (
+          userListResponse?.map((option) => (
+            <Card
+              style={{ background: "#AFC9E4" }}
+              className="flex flex-col justify-between w-[30%] px-2 py-5 rounded-lg"
+            >
+              {option.gender === "male" ? (
+                <CardMedia sx={{ width: 100, height: 100 }} image={a} />
+              ) : (
+                <CardMedia sx={{ width: 100, height: 100 }} image={b} />
+              )}
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {option.name}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {option.email}
+                </Typography>
+                <span
+                  className={
+                    option.status === "active"
+                      ? "text-green-600"
+                      : "text-red-600"
+                  }
+                  color="text.secondary"
+                >
+                  {option.status}
+                </span>
+              </CardContent>
+              <CardActions>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => {
+                      if (
+                        confirm(
+                          `Are you sure want to delete user ${option.name}`
+                        )
+                      ) {
+                        deleteUser(option.id);
+                      } else {
+                        console.log("Canceled");
+                      }
+                    }}
+                    className="font-medium text-white bg-red-600 p-2  border "
+                  >
+                    Delete
+                  </button>
+                  <UserInput
+                    label="Edit User"
+                    buttonLabel="Edit"
+                    setEditUserList={setEditUserList}
+                    onSubmit={() => {
+                      handleEditUser(option.id);
+                    }}
+                  />
+                </div>
+              </CardActions>
+            </Card>
+          ))
+        ) : (
+          <p>Loading...</p>
+        )}
+        <div className="flex justify-center items-center gap-5 w-full mt-10 fixed bottom-20 left-0">
+          <button
+            onClick={handlePrevPage}
+            className={
+              page === 1
+                ? "cursor-not-allowed font-medium text-white w-32 bg-blue-600 p-2 mx-2 border"
+                : "font-medium text-white w-32 bg-blue-600 p-2 mx-2 border"
+            }
+            disabled={page === 1}
+          >
+            Previous
+          </button>
+          <span className="flex items-center bg-white rounded-full h-7 p-2">
+            {page}
+          </span>
+          <button
+            onClick={handleNextPage}
+            className="font-medium text-white w-32 bg-blue-600 p-2 mx-2 border"
+          >
+            Next
+          </button>
+        </div>
+        <Outlet />
+      </div>
     </div>
   );
 };

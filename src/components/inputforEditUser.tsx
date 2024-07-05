@@ -2,6 +2,8 @@ import { Box, Modal } from "@mui/material";
 import { useState } from "react";
 import Typography from "@mui/material/Typography";
 import { EditUserList } from "../type";
+import { useFormik } from "formik";
+import { loginFormValidationSchema } from "../utils/auth";
 
 type InputProp = {
   onSubmit: (
@@ -13,32 +15,34 @@ type InputProp = {
   label: string;
   buttonLabel: string;
   setEditUserList: React.Dispatch<React.SetStateAction<EditUserList>>;
-  editUserList: EditUserList;
 };
 
 export const UserInput = ({
   label,
   onSubmit,
   buttonLabel,
-  editUserList,
   setEditUserList,
 }: InputProp) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  
 
-  const handleSubmit = (event: { preventDefault: () => void }) => {
-    event.preventDefault();
-    onSubmit(
-      editUserList.email,
-      editUserList.gender,
-      editUserList.name,
-      editUserList.status
-    );
-    alert("Successfully");
-    handleClose();
-  };
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      gender: "",
+      status: "",
+    },
+    validationSchema: loginFormValidationSchema,
+    onSubmit: (values) => {
+      onSubmit(values.name, values.email, values.gender, values.status);
+      setEditUserList(values);
+
+      alert("Successfully");
+      handleClose();
+    },
+  });
 
   const style = {
     position: "absolute" as "absolute",
@@ -70,101 +74,94 @@ export const UserInput = ({
             <form
               id="myForm"
               className="flex flex-col items-center gap-2"
-              action=""
+              onSubmit={formik.handleSubmit}
             >
               <div className="flex flex-col items-center">
-                <label htmlFor="">Name: </label>
+                <label htmlFor="name">Name: </label>
                 <input
                   className="border bg-slate-100 p-2 rounded-md"
                   placeholder="Enter Name"
                   required
                   type="text"
-                  id={editUserList.name}
-                  value={editUserList.name}
-                  onChange={(e) => {
-                    setEditUserList({ ...editUserList, name: e.target.value });
-                  }}
+                  id="name"
+                  name="name"
+                  value={formik.values.name}
+                  onChange={formik.handleChange}
                 />
+                {formik.touched.name && formik.errors.name ? (
+                  <div>{formik.errors.name}</div>
+                ) : null}
               </div>
               <div className="flex flex-col items-center">
-                <label htmlFor="">email: </label>
+                <label htmlFor="email">Email: </label>
                 <input
                   className="border bg-slate-100 p-2 rounded-md"
                   placeholder="Enter Email"
                   type="email"
-                  id={editUserList.email}
-                  value={editUserList.email}
-                  onChange={(e) => {
-                    setEditUserList({ ...editUserList, email: e.target.value });
-                  }}
+                  id="email"
+                  name="email"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
                 />
+                {formik.touched.email && formik.errors.email ? (
+                  <div>{formik.errors.email}</div>
+                ) : null}
               </div>
               <div className="flex flex-row items-center gap-2">
-                <label htmlFor="">Gender: </label>
+                <label htmlFor="gender">Gender: </label>
                 <input
-                  onChange={(e) => {
-                    setEditUserList({
-                      ...editUserList,
-                      gender: e.target.value,
-                    });
-                  }}
+                  onChange={formik.handleChange}
                   id="male"
-                  name="age"
+                  name="gender"
                   value="male"
                   type="radio"
+                  checked={formik.values.gender === "male"}
                 />
                 <label htmlFor="male">Male</label>
                 <input
-                  onChange={(e) => {
-                    setEditUserList({
-                      ...editUserList,
-                      gender: e.target.value,
-                    });
-                  }}
+                  onChange={formik.handleChange}
                   id="female"
-                  name="age"
+                  name="gender"
                   value="female"
                   type="radio"
+                  checked={formik.values.gender === "female"}
                 />
                 <label htmlFor="female">Female</label>
+                {formik.touched.gender && formik.errors.gender ? (
+                  <div>{formik.errors.gender}</div>
+                ) : null}
               </div>
               <div className="flex flex-row items-center gap-2">
-                <label htmlFor="">Status: </label>
+                <label htmlFor="status">Status: </label>
                 <input
-                  onChange={(e) => {
-                    setEditUserList({
-                      ...editUserList,
-                      status: e.target.value,
-                    });
-                  }}
+                  onChange={formik.handleChange}
                   id="active"
                   name="status"
                   value="active"
                   type="radio"
+                  checked={formik.values.status === "active"}
                 />
                 <label htmlFor="active">Active</label>
                 <input
-                  onChange={(e) => {
-                    setEditUserList({
-                      ...editUserList,
-                      status: e.target.value,
-                    });
-                  }}
+                  onChange={formik.handleChange}
                   id="inactive"
                   name="status"
                   value="inactive"
                   type="radio"
+                  checked={formik.values.status === "inactive"}
                 />
                 <label htmlFor="inactive">Inactive</label>
+                {formik.touched.status && formik.errors.status ? (
+                  <div>{formik.errors.status}</div>
+                ) : null}
               </div>
               <button
                 disabled={
-                  editUserList.name.length === 0 ||
-                  editUserList.email.length === 0 ||
-                  editUserList.gender.length === 0 ||
-                  editUserList.status.length === 0
+                  !formik.values.name ||
+                  !formik.values.email ||
+                  !formik.values.gender ||
+                  !formik.values.status
                 }
-                onClick={handleSubmit}
                 type="submit"
                 className="bg-green-600 mt-2 p-2 rounded-lg text-white font-bold"
               >
