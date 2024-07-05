@@ -49,7 +49,6 @@ export const Users = () => {
     setPage((prev: number) => Math.max(prev - 1, 1));
   };
 
-
   return (
     <div>
       <div className="z-10">
@@ -64,7 +63,7 @@ export const Users = () => {
           userListResponse?.map((option) => (
             <Card
               style={{ background: "#AFC9E4" }}
-              className="w-[30%] px-2 py-5  rounded-lg"
+              className="flex flex-col justify-between w-[30%] px-2 py-5 rounded-lg"
             >
               {option.gender === "male" ? (
                 <CardMedia sx={{ width: 100, height: 100 }} image={a} />
@@ -78,9 +77,16 @@ export const Users = () => {
                 <Typography variant="body2" color="text.secondary">
                   {option.email}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <span
+                  className={
+                    option.status === "active"
+                      ? "text-green-600"
+                      : "text-red-600"
+                  }
+                  color="text.secondary"
+                >
                   {option.status}
-                </Typography>
+                </span>
               </CardContent>
               <CardActions>
                 <div className="flex items-center gap-2">
@@ -115,14 +121,21 @@ export const Users = () => {
         ) : (
           <p>Loading...</p>
         )}
-        <div className="flex justify-center gap-5 w-full mt-10 fixed bottom-20 left-0">
+        <div className="flex justify-center items-center gap-5 w-full mt-10 fixed bottom-20 left-0">
           <button
             onClick={handlePrevPage}
-            className="font-medium text-white w-32 bg-blue-600 p-2 mx-2 border"
+            className={
+              page === 1
+                ? "cursor-not-allowed font-medium text-white w-32 bg-blue-600 p-2 mx-2 border"
+                : "font-medium text-white w-32 bg-blue-600 p-2 mx-2 border"
+            }
             disabled={page === 1}
           >
             Previous
           </button>
+          <span className="flex items-center bg-white rounded-full h-7 p-2">
+            {page}
+          </span>
           <button
             onClick={handleNextPage}
             className="font-medium text-white w-32 bg-blue-600 p-2 mx-2 border"
